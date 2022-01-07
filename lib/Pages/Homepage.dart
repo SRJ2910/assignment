@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, file_names
+// ignore_for_file: prefer_const_constructors_in_immutables, file_names, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:ui';
 
@@ -12,8 +12,21 @@ class Homepage extends StatefulWidget {
   _HomepageState createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends State<Homepage> with TickerProviderStateMixin {
   int i = 0;
+  late TabController _tabControl;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabControl = TabController(vsync: this, length: 4);
+    _tabControl.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +67,7 @@ class _HomepageState extends State<Homepage> {
                         height: 25,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.grey.shade800,
+                            color: Colors.grey.shade700,
                           ),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10.0)),
@@ -131,6 +144,64 @@ class _HomepageState extends State<Homepage> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 25),
+              child: DefaultTabController(
+                  length: 4,
+                  child: TabBar(
+                    isScrollable: true,
+                    indicatorColor: Colors.transparent,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.only(left: 10.0),
+                    controller: _tabControl,
+                    tabs: [
+                      Tab(
+                        child: TabBox(
+                          labelName: 'Living room',
+                          color: _tabControl.index == 0
+                              ? Colors.white60
+                              : Colors.grey.shade700,
+                          borderColor: _tabControl.index == 0
+                              ? Colors.amber
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                      Tab(
+                        child: TabBox(
+                          labelName: 'Kitchen',
+                          color: _tabControl.index == 1
+                              ? Colors.white60
+                              : Colors.grey.shade700,
+                          borderColor: _tabControl.index == 1
+                              ? Colors.amber
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                      Tab(
+                        child: TabBox(
+                          labelName: 'Bedroom',
+                          color: _tabControl.index == 2
+                              ? Colors.white60
+                              : Colors.grey.shade700,
+                          borderColor: _tabControl.index == 2
+                              ? Colors.amber
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                      Tab(
+                        child: TabBox(
+                          labelName: 'Bathroom',
+                          color: _tabControl.index == 3
+                              ? Colors.white60
+                              : Colors.grey.shade700,
+                          borderColor: _tabControl.index == 3
+                              ? Colors.amber
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                    ],
+                  )),
+            )
           ]),
         ),
       ),
@@ -259,4 +330,24 @@ class _HomepageState extends State<Homepage> {
           child: child,
         ),
       );
+
+  TabBox({required String labelName, required Color color, borderColor}) {
+    return Container(
+      width: 86,
+      height: 25,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: borderColor,
+          width: 1,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+      ),
+      child: Center(
+        child: Text(
+          labelName,
+          style: TextStyle(fontSize: 11, color: color),
+        ),
+      ),
+    );
+  }
 }
