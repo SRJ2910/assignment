@@ -127,7 +127,7 @@ class _gridpanelState extends State<gridpanel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Gate 2",
+                      "Gate 1",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
